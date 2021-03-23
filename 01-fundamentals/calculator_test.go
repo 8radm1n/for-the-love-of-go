@@ -53,11 +53,17 @@ func TestDivide(t *testing.T) {
 	testCases := []testCase{
 		{a: 1, b: 1, want: 1, errExpected: false},
 		{a: 10, b: 2, want: 5, errExpected: false},
-		{a: 6, b: 3, want: 2, errExpected: false},
+		{a: 6, b: 6, want: 1, errExpected: false},
 		{a: 100, b: 0, want: 0, errExpected: true},
 	}
 	for _, tc := range testCases {
 		got, err := calculator.Divide(tc.a, tc.b)
+		if (tc.want != got) && err == nil {
+			t.Fatalf("want %f, got %f. unexpected error status: nil", tc.want, got)
+		}
+		if tc.errExpected && err == nil {
+			t.Fatalf("want %f, got %f. unexpected error status: nil", tc.want, got)
+		}
 		if tc.want != got {
 			t.Errorf("want %f, got %f", tc.want, got)
 		}
